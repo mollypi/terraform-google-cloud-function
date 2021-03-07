@@ -1,0 +1,110 @@
+name: Implement Terraform
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '**.md'
+
+jobs:
+  implement-terraform:
+    runs-on: ubuntu-latest
+    env:
+      CREDS_FILE_LOCATION: "/tmp/credentials.json"
+    strategy:
+      matrix:
+        python-version: [3.8]
+
+    # Use Bash shell
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository on the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tfremote
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    # Install the latest version of Terraform CLI
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+        credentials_file_path: "/tmp/credentials.json"
+
+    - name: Use gcloud CLI
+      run: gcloud info
+
+    # Checks that all Terraform configuration files adhere to canonical format
+    - name: Terraform Format
+      run: terraform fmt -recursive #-check
+
+    # Generate execution plan
+    - name: Terraform Plan
+      working-directory: examples/function_only
+      run: |
+        tf -cloud gcloud plan -var='teamid=security' -var='prjid=demo'
+      env:
+        TF_GCLOUD_BUCKET: ${{ secrets.TF_GCLOUD_BUCKET }}
+        TF_GCLOUD_CREDENTIALS: "/tmp/credentials.json"
+
+    # On push to main deploy Terraform configuration files
+    - name: Terraform Apply
+      working-directory: examples/function_only
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        tf -cloud gcloud apply -var='teamid=security' -var='prjid=demo' -auto-approve
+      env:
+        TF_GCLOUD_BUCKET: ${{ secrets.TF_GCLOUD_BUCKET }}
+        TF_GCLOUD_CREDENTIALS: "/tmp/credentials.json"
+
+    - name: Get current branch name
+      id: vars
+      run: |
+        echo ::set-output name=branch_name::${GITHUB_REF##*/}
+
+    # Commit the files if branch name is develop
+    - name: Commit files
+      continue-on-error: true
+      run: |
+        git add -A .
+        git config --local user.email "terraform+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "Terraform changes"
+        git push
+
+    # Create a pull request from develop to master branch
+    - name: Pull requests
+      if: ${{ steps.vars.outputs.branch_name }} == 'develop'
+      uses: vsoch/pull-request-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PULL_REQUEST_BRANCH: "main"
+        PULL_REQUEST_FROM_BRANCH: ${{ github.ref }}
