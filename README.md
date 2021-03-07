@@ -151,7 +151,7 @@ module "cloudfunction" {
 }
 
 module "storage_bucket" {
-  source = "git::git@github.com:tomarv2/terraform-google-storage-bucket.git"
+  source = "git::git@github.com:tomarv2/terraform-google-storage-bucket.git?ref=0.0.1"
 
   teamid      = var.teamid
   prjid       = var.prjid
