@@ -99,11 +99,6 @@ variable "vpc_connector" {
   description = "The VPC Network Connector that this cloud function can connect to. It should be set up as fully-qualified URI. The format of this field is projects/*/locations/*/connectors/*."
 }
 
-//variable "event_trigger" {
-//  type        = map(string)
-//  description = "A source that fires events in response to a condition in another service."
-//}
-
 variable "event_trigger_failure_policy_retry" {
   type        = bool
   default     = false

@@ -70,7 +70,7 @@ jobs:
     - name: Terraform Plan
       working-directory: examples/function_only
       run: |
-        tf -cloud gcloud plan -var='teamid=security' -var='prjid=demo'
+        tf -cloud gcloud plan -var='teamid=rumse' -var='prjid=demo'
       env:
         TF_GCLOUD_BUCKET: ${{ secrets.TF_GCLOUD_BUCKET }}
         TF_GCLOUD_CREDENTIALS: "/tmp/credentials.json"
@@ -80,7 +80,7 @@ jobs:
       working-directory: examples/function_only
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
-        tf -cloud gcloud apply -var='teamid=security' -var='prjid=demo' -auto-approve
+        tf -cloud gcloud apply -var='teamid=rumse' -var='prjid=demo' -auto-approve
       env:
         TF_GCLOUD_BUCKET: ${{ secrets.TF_GCLOUD_BUCKET }}
         TF_GCLOUD_CREDENTIALS: "/tmp/credentials.json"

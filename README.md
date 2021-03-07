@@ -52,10 +52,7 @@ export TF_GCLOUD_BUCKET=<remote state bucket name>
 export TF_GCLOUD_CREDENTIALS=<gcp credentials.json>
 ```  
 
-- Change to: 
-```
-examples/function_only 
-``` 
+- Change to `examples/function_only`
 
 - Run and verify the output before deploying:
 ```
@@ -71,8 +68,6 @@ tf -cloud gcloud apply -var-file <path to .tfvars file>
 ```
 tf -cloud gcloud destroy -var-file <path to .tfvars file>
 ```
-
-
 
 > ❗️ **Important** - Two variables are required for using `tf` package:
 >
@@ -229,4 +224,17 @@ Please refer to examples directory [link](examples) for references.
 | function\_source\_archive\_object | function source archive object |
 | function\_vpc\_egress\_settings | function vpc egress settings |
 | scheduler\_topic\_id | n/a |
+
+## Permissions
+
+Service account with the following roles is required:
+
+- [`roles/cloudfunctions.developer`](https://cloud.google.com/iam/docs/understanding-roles#cloud-functions-roles)
+- [`roles/storage.admin`](https://cloud.google.com/iam/docs/understanding-roles#cloud-storage-roles)
+
+## Project APIs
+
+Following APIs must be enabled on the project:
+- `cloudfunctions.googleapis.com`
+- `storage-component.googleapis.com`
 
