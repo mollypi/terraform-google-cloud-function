@@ -52,7 +52,7 @@ export TF_GCLOUD_BUCKET=<remote state bucket name>
 export TF_GCLOUD_CREDENTIALS=<gcp credentials.json>
 ```  
 
-- Change to `examples/function_only`
+- Updated `examples` directory to required values 
 
 - Run and verify the output before deploying:
 ```
