@@ -24,10 +24,8 @@ Terraform module to create Google Cloud Function (HTTP and Event triggers)
 - Module tested for Terraform 0.14.
 - Google provider version [3.58.0](https://registry.terraform.io/providers/hashicorp/google/latest)
 - `main` branch: Provider versions not pinned to keep up with Terraform releases
-- `tags` releases: Tags are pinned with versions (use latest     
-        <a href="https://github.com/tomarv2/terraform-google-cloudfunction/tags" alt="GitHub tag">
-        <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-google-cloudfunction" /></a> 
-  in your releases)
+- `tags` releases: Tags are pinned with versions (use <a href="https://github.com/tomarv2/terraform-google-cloudfunction/tags" alt="GitHub tag">
+        <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-google-cloudfunction" /></a> in your releases)
 
 **NOTE:** 
 
