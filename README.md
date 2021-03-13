@@ -90,9 +90,8 @@ module "cloudfunction" {
     "HELLO" = "WORLD"
   }
   output_file_path             = "/tmp/test.zip"
-  source_file                  = "main.py"
-  gcp_region                   = "us-west3"
-  function_archive_bucket_name = "demo-bucket"
+  source_file                  = "main.py" # function file location
+  function_archive_bucket_name = "<existing bucket name>"
   ingress_settings             = "ALLOW_ALL"
   entry_point                  = "function_handler"
   #-------------------------------------------------------------------
@@ -101,10 +100,9 @@ module "cloudfunction" {
   # when trigger_type is bucket and topic
   trigger_type           = "bucket"
   trigger_event_type     = "google.storage.object.finalize"
-  trigger_event_resource = "demo-bucket"
+  trigger_event_resource = "<existing bucket name>"
   sls_project_env        = "dev"
   invokers               = ["allUsers"]
-  service_account_email  = "demo@demo-1000.iam.gserviceaccount.com"
   #-------------------------------------------------------------------
   # Note: Do not change teamid and prjid once set.
   teamid = var.teamid
@@ -133,10 +131,11 @@ module "cloudfunction" {
   # when trigger_type is bucket and topic
   trigger_type           = "http"
   trigger_event_type     = "google.storage.object.finalize"
-  trigger_event_resource = "demo-bucket"
+  trigger_event_resource = module.storage_bucket.storage_bucket_name
   sls_project_env        = "dev"
   invokers               = ["allUsers"]
   service_account_email  = "demo@demo-1000.iam.gserviceaccount.com"
+  gcp_region             = "us-west3"
   #-------------------------------------------------------------------
   # Note: Do not change teamid and prjid once set.
   teamid = var.teamid
@@ -144,8 +143,11 @@ module "cloudfunction" {
 }
 
 module "storage_bucket" {
-  source = "git::git@github.com:tomarv2/terraform-google-storage-bucket.git?ref=0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-google-storage-bucket.git?ref=v0.0.1"
 
+  deploy_bucket = true
+  
+  bucket_name = "<unique bucket name>"
   teamid      = var.teamid
   prjid       = var.prjid
   gcp_project = "demo-1000"

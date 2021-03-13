@@ -22,7 +22,7 @@ resource "google_cloudfunctions_function" "event_function" {
   entry_point                   = var.entry_point
   environment_variables         = var.environment_vars
   ingress_settings              = var.ingress_settings
-  service_account_email         = var.service_account_email
+  service_account_email         = var.service_account_email == null ? "" : var.service_account_email
   vpc_connector_egress_settings = var.vpc_connector_egress_settings
   vpc_connector                 = var.vpc_connector
   labels                        = merge(local.shared_labels)
@@ -45,7 +45,8 @@ resource "google_cloudfunctions_function" "http_function" {
   entry_point                   = var.entry_point
   environment_variables         = var.environment_vars
   ingress_settings              = var.ingress_settings
-  service_account_email         = var.service_account_email
+  service_account_email         = var.service_account_email == null ? "" : var.service_account_email
+
   vpc_connector_egress_settings = var.vpc_connector_egress_settings
   vpc_connector                 = var.vpc_connector
   labels                        = merge(local.shared_labels)
