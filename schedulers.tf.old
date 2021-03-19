@@ -1,5 +1,6 @@
 resource "google_pubsub_topic" "scheduler" {
   count   = var.trigger_type == local.TRIGGER_TYPE_SCHEDULER ? 1 : 0
+
   name    = "${var.teamid}-${var.prjid}"
   labels  = merge(local.shared_labels)
   project = var.gcp_project
@@ -7,6 +8,7 @@ resource "google_pubsub_topic" "scheduler" {
 
 resource "google_cloud_scheduler_job" "scheduler" {
   count       = var.trigger_type == local.TRIGGER_TYPE_SCHEDULER ? 1 : 0
+
   name        = "${var.teamid}-${var.prjid}"
   description = "${var.teamid}-${var.prjid} triggers function"
   schedule    = var.schedule

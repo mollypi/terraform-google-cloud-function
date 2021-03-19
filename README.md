@@ -15,14 +15,12 @@
         <img src="https://img.shields.io/twitter/follow/varuntomar2019?style=social&logo=twitter"></a>
 </p>
 
-# Terraform module to create Google Cloud Function
-
-Terraform module to create Google Cloud Function (HTTP and Event triggers)
+# Terraform module to create Google Cloud Function (HTTP and Event triggers)
 
 # Versions
 
 - Module tested for Terraform 0.14.
-- Google provider version [3.58.0](https://registry.terraform.io/providers/hashicorp/google/latest)
+- Google provider version [3.60.0](https://registry.terraform.io/providers/hashicorp/google/latest)
 - `main` branch: Provider versions not pinned to keep up with Terraform releases
 - `tags` releases: Tags are pinned with versions (use <a href="https://github.com/tomarv2/terraform-google-cloudfunction/tags" alt="GitHub tag">
         <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-google-cloudfunction" /></a> in your releases)
@@ -54,17 +52,17 @@ export TF_GCLOUD_CREDENTIALS=<gcp credentials.json>
 
 - Run and verify the output before deploying:
 ```
-tf -cloud gcloud plan -var-file <path to .tfvars file>
+tf -cloud gcloud plan
 ```
 
 - Run below to deploy:
 ```
-tf -cloud gcloud apply -var-file <path to .tfvars file>
+tf -cloud gcloud apply
 ```
 
 - Run below to destroy:
 ```
-tf -cloud gcloud destroy -var-file <path to .tfvars file>
+tf -cloud gcloud destroy
 ```
 
 > ❗️ **Important** - Two variables are required for using `tf` package:
@@ -162,14 +160,14 @@ Please refer to examples directory [link](examples) for references.
 | Name | Version |
 |------|---------|
 | terraform | >= 0.14 |
-| google | ~> 3.58 |
+| google | ~> 3.60 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | archive | n/a |
-| google | ~> 3.58 |
+| google | ~> 3.60 |
 | random | n/a |
 
 ## Inputs

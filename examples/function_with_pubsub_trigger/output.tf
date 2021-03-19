@@ -3,9 +3,9 @@ output "function_http_url" {
   value       = join(" ", module.cloudfunction.*.function_http_url)
 }
 
-output "scheduler_topic_id" {
-  value = join(" ", module.cloudfunction.*.scheduler_topic_id)
-}
+//output "scheduler_topic_id" {
+//  value = join(" ", module.cloudfunction.*.scheduler_topic_id)
+//}
 
 output "function_name" {
   description = "function name"
@@ -55,4 +55,9 @@ output "function_source_archive_object" {
 output "function_vpc_egress_settings" {
   description = "function vpc egress settings"
   value       = join(" ", module.cloudfunction.*.function_vpc_egress_settings)
+}
+
+output "bucket_name" {
+  description = "function bucket name"
+  value       = join(" ", module.storage_bucket.*.storage_bucket_name)
 }

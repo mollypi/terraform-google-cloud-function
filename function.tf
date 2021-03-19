@@ -15,9 +15,13 @@ resource "google_cloudfunctions_function" "event_function" {
   max_instances         = var.max_instances
 
   event_trigger {
-    event_type = var.trigger_type == local.TRIGGER_TYPE_SCHEDULER ? "google.pubsub.topic.publish" : var.trigger_event_type
-    resource   = var.trigger_type == local.TRIGGER_TYPE_SCHEDULER ? google_pubsub_topic.scheduler[0].id : var.trigger_event_resource
+    event_type = var.trigger_event_type
+    resource = var.trigger_event_resource
   }
+//  event_trigger {
+//    event_type = var.trigger_type == local.TRIGGER_TYPE_SCHEDULER ? "google.pubsub.topic.publish" : var.trigger_event_type
+//    resource   = var.trigger_type == local.TRIGGER_TYPE_SCHEDULER ? google_pubsub_topic.scheduler[0].id : var.trigger_event_resource
+//  }
 
   entry_point                   = var.entry_point
   environment_variables         = var.environment_vars

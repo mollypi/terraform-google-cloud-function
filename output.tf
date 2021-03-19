@@ -2,10 +2,10 @@ output "function_http_url" {
   description = "function http trigger url"
   value       = join(" ", google_cloudfunctions_function.http_function.*.https_trigger_url)
 }
-
-output "scheduler_topic_id" {
-  value = join(" ", google_pubsub_topic.scheduler.*.id)
-}
+//
+//output "scheduler_topic_id" {
+//  value = join(" ", google_pubsub_topic.scheduler.*.id)
+//}
 
 output "function_name" {
   description = "function name"
