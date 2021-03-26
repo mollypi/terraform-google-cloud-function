@@ -52,17 +52,17 @@ export TF_GCLOUD_CREDENTIALS=<gcp credentials.json>
 
 - Run and verify the output before deploying:
 ```
-tf -cloud gcloud plan
+tf -cloud gcloud plan -var='teamid=foo' -var='prjid=bar'
 ```
 
 - Run below to deploy:
 ```
-tf -cloud gcloud apply
+tf -cloud gcloud apply -var='teamid=foo' -var='prjid=bar'
 ```
 
 - Run below to destroy:
 ```
-tf -cloud gcloud destroy
+tf -cloud gcloud destroy -var='teamid=foo' -var='prjid=bar'
 ```
 
 > ❗️ **Important** - Two variables are required for using `tf` package:
@@ -78,7 +78,7 @@ tf -cloud gcloud destroy
 >
 > For more information refer to [Terraform documentation](https://www.terraform.io/docs/language/values/variables.html)
 
-##### Function Only
+#### Function Only
 ```
 module "cloudfunction" {
   source = "../../"
@@ -108,7 +108,7 @@ module "cloudfunction" {
 }
 ```
 
-##### Function with Storage
+#### Function with Storage
 ```
 module "cloudfunction" {
   source = "../../"
@@ -225,14 +225,15 @@ Please refer to examples directory [link](examples) for references.
 
 ## Permissions
 
-Service account with the following roles is required:
+**Service account with the following roles is required:**
 
 - [`roles/cloudfunctions.developer`](https://cloud.google.com/iam/docs/understanding-roles#cloud-functions-roles)
 - [`roles/storage.admin`](https://cloud.google.com/iam/docs/understanding-roles#cloud-storage-roles)
 
 ## Project APIs
 
-Following APIs must be enabled on the project:
+**Following APIs must be enabled on the project:**
+
 - `cloudfunctions.googleapis.com`
 - `storage-component.googleapis.com`
 

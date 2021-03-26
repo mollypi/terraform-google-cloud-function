@@ -3,10 +3,6 @@ output "function_http_url" {
   value       = join(" ", module.cloudfunction.*.function_http_url)
 }
 
-output "scheduler_topic_id" {
-  value = join(" ", module.cloudfunction.*.scheduler_topic_id)
-}
-
 output "function_name" {
   description = "function name"
   value       = join(" ", module.cloudfunction.*.function_name)

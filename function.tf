@@ -15,7 +15,7 @@ resource "google_cloudfunctions_function" "event_function" {
   max_instances         = var.max_instances
 
   event_trigger {
-    event_type = var.trigger_event_type
+    event_type = "google.pubsub.topic.publish" #var.trigger_event_type
     resource = var.trigger_event_resource
   }
 //  event_trigger {
