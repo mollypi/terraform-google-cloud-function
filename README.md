@@ -230,7 +230,7 @@ Please refer to examples directory [link](examples) for references.
 - [`roles/cloudfunctions.developer`](https://cloud.google.com/iam/docs/understanding-roles#cloud-functions-roles)
 - [`roles/storage.admin`](https://cloud.google.com/iam/docs/understanding-roles#cloud-storage-roles)
 
-## Project APIs
+## Required APIs
 
 **Following APIs must be enabled on the project:**
 
