@@ -1,5 +1,5 @@
 resource "google_cloudfunctions_function" "event_function" {
-  count = var.trigger_type != local.TRIGGER_TYPE_HTTP ? 1 : 0
+  count = var.trigger_type != local.trigger_type_http ? 1 : 0
 
   name        = "${var.teamid}-${var.prjid}"
   description = "${var.teamid}-${var.prjid} processes events"
@@ -14,13 +14,13 @@ resource "google_cloudfunctions_function" "event_function" {
   max_instances         = var.max_instances
 
   event_trigger {
-    event_type = "google.pubsub.topic.publish" #var.trigger_event_type
+    event_type = var.trigger_event_type
     resource   = var.trigger_event_resource
   }
-  //  event_trigger {
-  //    event_type = var.trigger_type == local.TRIGGER_TYPE_SCHEDULER ? "google.pubsub.topic.publish" : var.trigger_event_type
-  //    resource   = var.trigger_type == local.TRIGGER_TYPE_SCHEDULER ? google_pubsub_topic.scheduler[0].id : var.trigger_event_resource
-  //  }
+//    event_trigger {
+//    event_type = var.trigger_type == local.trigger_type_schedule ? "google.pubsub.topic.publish" : var.trigger_event_type
+//    resource   = var.trigger_type == local.trigger_type_schedule ? google_pubsub_topic.scheduler[0].id : var.trigger_event_resource
+//  }
 
   entry_point                   = var.entry_point
   environment_variables         = var.environment_vars
@@ -32,14 +32,12 @@ resource "google_cloudfunctions_function" "event_function" {
 }
 
 resource "google_cloudfunctions_function" "http_function" {
-  count = var.trigger_type == local.TRIGGER_TYPE_HTTP ? 1 : 0
+  count = var.trigger_type == local.trigger_type_http ? 1 : 0
 
   name        = "${var.teamid}-${var.prjid}"
   description = "${var.teamid}-${var.prjid} function"
 
   runtime               = var.runtime
-  project               = var.project
-  region                = var.region
   available_memory_mb   = var.available_memory_mb
   timeout               = var.timeout
   source_archive_bucket = var.function_archive_bucket_name

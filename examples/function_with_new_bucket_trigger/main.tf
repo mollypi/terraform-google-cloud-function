@@ -6,7 +6,7 @@ module "cloudfunction" {
     "HELLO" = "WORLD"
   }
   output_file_path             = "/tmp/test.zip"
-  source_file                  = "main.py"
+  source_file                  = "function.py"
   function_archive_bucket_name = module.storage_bucket.storage_bucket_name
   ingress_settings             = "ALLOW_ALL"
   entry_point                  = "function_handler"
@@ -28,7 +28,6 @@ module "cloudfunction" {
 module "storage_bucket" {
   source = "git::git@github.com:tomarv2/terraform-google-storage-bucket.git"
 
-  gcp_project = "demo-1000"
   #-------------------------------------------------------------------
   # Note: Do not change teamid and prjid once set.
   teamid = var.teamid

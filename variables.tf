@@ -8,12 +8,20 @@ variable "prjid" {
   type        = string
 }
 
-variable "source_file" {}
+variable "source_file" {
+  description = "Source file"
+  type        = string
+}
 
-variable "output_file_path" {}
+variable "output_file_path" {
+  description = "Zip file location"
+  type        = string
+}
 
 variable "archive_type" {
-  default = "zip"
+  description = "Archive type"
+  default     = "zip"
+  type        = string
 }
 
 resource "random_string" "naming" {
@@ -29,15 +37,13 @@ locals {
 variable "runtime" {
   default     = "python37"
   description = "The runtime in which the function is going to run. Eg. python37, go113"
+  type        = string
 }
 
 variable "available_memory_mb" {
   default     = 128
-  description = "Memory available in MB. Default value is 256MB. Allowed values are: 128MB, 256MB, 512MB, 1024MB, 2048MB and 4096MB."
-}
-
-variable "gcp_function_role" {
-  default = "roles/cloudfunctions.invoker"
+  description = "Memory available in MB. Default value is 256MB. Allowed values are: 128MB, 256MB, 512MB, 1024MB, 2048MB and 4096MB"
+  type        = string
 }
 
 variable "entry_point" {
@@ -51,17 +57,16 @@ variable "environment_vars" {
   description = "A set of key/value environment variable pairs to assign to the function."
 }
 
-variable "gcp_zone" {
-  default = "us-central1a"
-}
-
 variable "timeout" {
-  default = 60
+  description = "Timeout"
+  default     = 60
+  type        = number
 }
 
 variable "function_archive_bucket_name" {
   description = "The GCS bucket containing the zip archive which contains the function."
   default     = null
+  type        = string
 }
 
 variable "ingress_settings" {
@@ -73,6 +78,7 @@ variable "ingress_settings" {
 variable "service_account_email" {
   description = "The self-provided service account to run the function with."
   default     = null
+  type        = string
 }
 
 variable "max_instances" {
@@ -93,12 +99,6 @@ variable "vpc_connector" {
   description = "The VPC Network Connector that this cloud function can connect to. It should be set up as fully-qualified URI. The format of this field is projects/*/locations/*/connectors/*."
 }
 
-variable "event_trigger_failure_policy_retry" {
-  type        = bool
-  default     = false
-  description = "A toggle to determine if the function should be retried on failure."
-}
-
 variable "trigger_type" {
   type        = string
   description = "Function trigger type that must be provided"
@@ -109,41 +109,6 @@ variable "trigger_type" {
   }
 }
 
-variable "schedule" {
-  type        = string
-  description = "Describes the schedule on which the job will be executed"
-  default     = "*/30 * * * *"
-}
-
-variable "schedule_time_zone" {
-  type        = string
-  description = "Specifies the time zone to be used in interpreting schedule. The value of this field must be a time zone name from the tz database"
-  default     = "America/Los_Angeles"
-}
-
-variable "schedule_retry_config" {
-  type = object({
-    retry_count          = number,
-    max_retry_duration   = string,
-    min_backoff_duration = string,
-    max_backoff_duration = string,
-    max_doublings        = number,
-  })
-  description = "By default, if a job does not complete successfully, meaning that an acknowledgement is not received from the handler, then it will be retried with exponential backoff"
-  default = {
-    retry_count          = 0,
-    max_retry_duration   = "0s",
-    min_backoff_duration = "5s",
-    max_backoff_duration = "3600s",
-    max_doublings        = 5
-  }
-}
-
-variable "schedule_payload" {
-  type        = string
-  description = "Payload for Cloud Scheduler"
-  default     = "{}"
-}
 
 variable "invokers" {
   type        = list(string)
@@ -151,21 +116,15 @@ variable "invokers" {
   default     = []
 }
 
-variable "vpc_access_connector" {
+variable "trigger_event_resource" {
   type        = string
-  description = "Enable access to shared VPC 'projects/<host-project>/locations/<region>/connectors/<connector>'"
-  default     = null
+  description = "The name or partial URI of the resource from which to observe events. Only for topic and bucket triggered functions"
+  default     = ""
 }
 
 variable "trigger_event_type" {
   type        = string
   description = "The type of event to observe. Only for topic and bucket triggered functions"
-  default     = ""
-}
-
-variable "trigger_event_resource" {
-  type        = string
-  description = "The name or partial URI of the resource from which to observe events. Only for topic and bucket triggered functions"
   default     = ""
 }
 

@@ -1,13 +1,12 @@
 module "cloudfunction" {
   source = "../../"
 
-  gcp_project = "demo-1000"
   environment_vars = {
     "HELLO" = "WORLD"
   }
   output_file_path             = "/tmp/test.zip"
-  source_file                  = "main.py"
-  function_archive_bucket_name = "demo-bucket"
+  source_file                  = "function.py"
+  function_archive_bucket_name = var.bucket_name
   ingress_settings             = "ALLOW_ALL"
   entry_point                  = "function_handler"
   #-----------------------------------------------
@@ -16,7 +15,7 @@ module "cloudfunction" {
   # when trigger_type is bucket and topic
   trigger_type           = "bucket"
   trigger_event_type     = "google.storage.object.finalize"
-  trigger_event_resource = "demo-bucket"
+  trigger_event_resource = var.bucket_name
   sls_project_env        = "dev"
   invokers               = ["allUsers"]
   service_account_email  = "demo@demo-1000.iam.gserviceaccount.com"

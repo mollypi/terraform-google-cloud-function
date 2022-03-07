@@ -1,5 +1,4 @@
 locals {
-
   shared_labels = tomap(
     {
       "name"    = "${var.teamid}-${var.prjid}",

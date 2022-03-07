@@ -7,7 +7,7 @@ module "cloudfunction" {
   }
   region                       = "us-west2"
   output_file_path             = "/tmp/test.zip"
-  source_file                  = "main.py"
+  source_file                  = "function.py"
   function_archive_bucket_name = module.storage_bucket.storage_bucket_name
   ingress_settings             = "ALLOW_ALL"
   entry_point                  = "function_handler"
@@ -17,7 +17,7 @@ module "cloudfunction" {
   trigger_type           = "topic"
   trigger_event_type     = "google.pubsub.topic.publish"
   trigger_event_resource = "projects/demo-1000/topics/test-seched"
-  sls_project_env        = "dev"
+  #sls_project_env        = "dev"
   invokers               = ["allUsers"]
   service_account_email  = "terraform@demo-1000.iam.gserviceaccount.com"
   #-----------------------------------------------

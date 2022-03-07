@@ -1,7 +1,6 @@
 locals {
-
-  TRIGGER_TYPE_HTTP      = "http"
+  trigger_type_http = "http"
   TRIGGER_TYPE_TOPIC     = "topic"
-  TRIGGER_TYPE_SCHEDULER = "scheduler"
+  trigger_type_schedule = "scheduler"
   TRIGGER_TYPE_BUCKET    = "bucket"
 }
