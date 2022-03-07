@@ -25,7 +25,7 @@ output "function_region" {
 
 output "function_memory" {
   description = "function memory"
-  value       = join(" ",module.cloudfunction.*.function_memory)
+  value       = join(" ", module.cloudfunction.*.function_memory)
 }
 
 output "function_project" {
@@ -51,9 +51,4 @@ output "function_source_archive_object" {
 output "function_vpc_egress_settings" {
   description = "function vpc egress settings"
   value       = join(" ", module.cloudfunction.*.function_vpc_egress_settings)
-}
-
-output "bucket_name" {
-  description = "function bucket name"
-  value       = join(" ", module.storage_bucket.*.storage_bucket_name)
 }

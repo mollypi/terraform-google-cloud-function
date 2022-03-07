@@ -3,7 +3,7 @@ resource "google_pubsub_topic" "scheduler" {
 
   name    = "${var.teamid}-${var.prjid}"
   labels  = merge(local.shared_labels)
-  project = var.gcp_project
+  project = var.project
 }
 
 resource "google_cloud_scheduler_job" "scheduler" {
@@ -13,7 +13,7 @@ resource "google_cloud_scheduler_job" "scheduler" {
   description = "${var.teamid}-${var.prjid} triggers function"
   schedule    = var.schedule
   time_zone   = var.schedule_time_zone
-  region      = var.gcp_region
+  region      = var.region
 
   pubsub_target {
     attributes = {}

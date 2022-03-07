@@ -1,17 +1,11 @@
 variable "teamid" {
-  description = "(Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply'"
+  description = "Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply'"
+  type        = string
 }
 
 variable "prjid" {
-  description = "(Required) Name of the project/stack e.g: mystack, nifieks, demoaci. Should not be changed after running 'tf apply'"
-}
-
-variable "gcp_project" {
-  description = "Name of the GCP project"
-}
-
-variable "gcp_region" {
-  default = "us-central1"
+  description = "Name of the project/stack e.g: mystack, nifieks, demoaci. Should not be changed after running 'tf apply'"
+  type        = string
 }
 
 variable "source_file" {}
@@ -34,7 +28,7 @@ locals {
 
 variable "runtime" {
   default     = "python37"
-  description = "(Required) The runtime in which the function is going to run. Eg. python37, go113"
+  description = "The runtime in which the function is going to run. Eg. python37, go113"
 }
 
 variable "available_memory_mb" {
