@@ -10,5 +10,16 @@ variable "prjid" {
 
 variable "bucket_name" {
   description = "Function archive bucket name"
-  type = string
+  type        = string
+}
+
+variable "region" {
+  description = "Location where this resources should be created"
+  type        = string
+  default     = "us-central1"
+}
+
+variable "project" {
+  description = "GCP project to deploy resources"
+  type        = string
 }

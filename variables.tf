@@ -131,4 +131,24 @@ variable "trigger_event_type" {
 variable "sls_project_env" {
   type        = string
   description = "Project's SLS environment."
+  default     = "dev"
+}
+
+# alerts
+variable "alert_slack_token" {
+  description = "A Slack token that is used for alerting."
+  default     = "xapp-1-1234567-1234567-1234567"
+  type        = string
+}
+
+variable "alert_channel" {
+  description = "A Slack channel to send alerts to."
+  default     = "#gcp-function"
+  type        = string
+}
+
+variable "alert_alignment_period" {
+  description = "Alignment period for alerts."
+  default     = "60s"
+  type        = string
 }
