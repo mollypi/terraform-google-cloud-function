@@ -13,7 +13,7 @@
         <img src="https://img.shields.io/twitter/follow/varuntomar2019?style=social&logo=twitter"></a>
 </p>
 
-# Terraform module to create Google Cloud Function (HTTP and Event triggers)
+## Terraform module for Google Cloud Function (HTTP and Event triggers)
 
 # Versions
 
