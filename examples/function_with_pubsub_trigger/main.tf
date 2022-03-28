@@ -20,7 +20,7 @@ module "cloudfunction" {
   environment_vars = {
     "HELLO" = "WORLD"
   }
-  region                       = "us-west2"
+
   output_file_path             = "/tmp/test.zip"
   source_file                  = "main.py"
   function_archive_bucket_name = module.storage_bucket.storage_bucket_name
