@@ -2,21 +2,6 @@ locals {
   alerts_enabled = length(var.alert_slack_token) > 0 && var.sls_project_env == "prod"
 }
 
-variable "alert_slack_token" {
-  description = "A Slack token that is used for alerting."
-  default     = "xapp-1-A01QL3B38NQ-1836117870948-3d67180df563d691ce3c792144bbccd792072170fbed0a702ba76e5ee4ee370d"
-}
-
-variable "alert_channel" {
-  description = "A Slack channel to send alerts to."
-  default     = "#gcp-function"
-}
-
-variable "alert_alignment_period" {
-  description = "Alignment period for alerts."
-  default     = "60s"
-}
-
 locals {
   slack_message = <<-EOT
     :warning: Function test

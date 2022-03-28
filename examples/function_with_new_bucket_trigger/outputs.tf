@@ -25,7 +25,7 @@ output "function_region" {
 
 output "function_memory" {
   description = "function memory"
-  value       = join(" ",module.cloudfunction.*.function_memory)
+  value       = join(" ", module.cloudfunction.*.function_memory)
 }
 
 output "function_project" {
