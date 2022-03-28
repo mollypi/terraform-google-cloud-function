@@ -1,52 +1,54 @@
-terraform {
-  required_version = ">= 1.0.1"
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 4.12.0"
-    }
+resource "google_cloudfunctions_function" "event_function" {
+  count = var.trigger_type != local.trigger_type_http ? 1 : 0
+
+  name        = "${var.teamid}-${var.prjid}"
+  description = "${var.teamid}-${var.prjid} processes events"
+
+
+  runtime = var.runtime
+
+  available_memory_mb   = var.available_memory_mb
+  timeout               = var.timeout
+  source_archive_bucket = var.function_archive_bucket_name
+  source_archive_object = google_storage_bucket_object.archive.name
+  max_instances         = var.max_instances
+
+  event_trigger {
+    event_type = var.trigger_event_type
+    resource   = var.trigger_event_resource
   }
+  #    event_trigger {
+  #    event_type = var.trigger_type == local.trigger_type_schedule ? "google.pubsub.topic.publish" : var.trigger_event_type
+  #    resource   = var.trigger_type == local.trigger_type_schedule ? google_pubsub_topic.scheduler[0].id : var.trigger_event_resource
+  #  }
+
+  entry_point                   = var.entry_point
+  environment_variables         = var.environment_vars
+  ingress_settings              = var.ingress_settings
+  service_account_email         = var.service_account_email == null ? "" : var.service_account_email
+  vpc_connector_egress_settings = var.vpc_connector_egress_settings
+  vpc_connector                 = var.vpc_connector
+  labels                        = merge(local.shared_labels)
 }
 
-provider "google" {
-  region  = var.region
-  project = var.project
-}
+resource "google_cloudfunctions_function" "http_function" {
+  count = var.trigger_type == local.trigger_type_http ? 1 : 0
 
+  name        = "${var.teamid}-${var.prjid}"
+  description = "${var.teamid}-${var.prjid} function"
 
-module "cloudfunction" {
-  source = "../../"
+  runtime               = var.runtime
+  available_memory_mb   = var.available_memory_mb
+  timeout               = var.timeout
+  source_archive_bucket = var.function_archive_bucket_name
+  source_archive_object = google_storage_bucket_object.archive.name
+  trigger_http          = true
+  entry_point           = var.entry_point
+  environment_variables = var.environment_vars
+  ingress_settings      = var.ingress_settings
+  service_account_email = var.service_account_email == null ? "" : var.service_account_email
 
-  environment_vars = {
-    "HELLO" = "WORLD"
-  }
-
-  output_file_path             = "/tmp/test.zip"
-  source_file                  = "main.py"
-  function_archive_bucket_name = module.storage_bucket.storage_bucket_name
-  ingress_settings             = "ALLOW_ALL"
-  entry_point                  = "function_handler"
-  #----------------------------------------
-  # NOTE: "trigger_event_type" & "trigger_event_resource" is only required
-  # when "trigger_type" is "bucket" or "topic"
-  trigger_type           = "topic"
-  trigger_event_type     = "google.pubsub.topic.publish"
-  trigger_event_resource = "projects/demo-1000/topics/test-seched"
-  #sls_project_env        = "dev"
-  invokers              = ["allUsers"]
-  service_account_email = "terraform@demo-1000.iam.gserviceaccount.com"
-  #----------------------------------------
-  # Note: Do not change teamid and prjid once set.
-  teamid = var.teamid
-  prjid  = var.prjid
-}
-
-module "storage_bucket" {
-  source = "git::git@github.com:tomarv2/terraform-google-storage-bucket.git?ref=v0.0.2"
-
-  bucket_name = "testbucket-schedsdfsdf"
-  #----------------------------------------
-  # Note: Do not change teamid and prjid once set.
-  teamid = var.teamid
-  prjid  = var.prjid
+  vpc_connector_egress_settings = var.vpc_connector_egress_settings
+  vpc_connector                 = var.vpc_connector
+  labels                        = merge(local.shared_labels)
 }
